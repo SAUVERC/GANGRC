@@ -9,6 +9,7 @@
 body { background:#0b0b0b; color:white; }
 .section { padding:60px 20px; }
 .list-group-item{cursor:pointer}
+.active-song{background:#222 !important;color:#fff}
 </style>
 </head>
 <body>
@@ -37,68 +38,75 @@ body { background:#0b0b0b; color:white; }
 </div>
 
 <div id="songList" class="list-group"></div>
+
+<!-- ONLY CLICKED SONG SHOWS HERE -->
 <div id="details" class="mt-4"></div>
 </section>
 
 <script>
 
-const words1 = ["Golden","Silent","Red","Blue","Midnight","Velvet","Broken","Wild","Lonely","Electric"];
-const words2 = ["River","Sky","Heart","Dream","Night","Echo","City","Fire","Voice","Shadow"];
+const words1=["Golden","Silent","Red","Blue","Midnight","Velvet","Broken","Wild","Lonely","Electric"];
+const words2=["River","Sky","Heart","Dream","Night","Echo","City","Fire","Voice","Shadow"];
 
-const songs = [];
-const culture = [];
-const year = [];
+const songs=[];
+const culture=[];
+const year=[];
 
 for(let i=1;i<=500;i++){
-    let era="";
-    let y = 1800 + Math.floor((i/500)*226);
+ let era="";
+ let y=1800+Math.floor((i/500)*226);
 
-    if(i<=100) era="Folk Russia – oral traditions, village emotions";
-    else if(i<=200) era="Imperial/Soviet shift – identity & revolution";
-    else if(i<=300) era="Soviet peak – war, unity, propaganda";
-    else if(i<=400) era="Post-Soviet – western influence, chaos";
-    else era="Modern Russia – internet, trap, youth culture";
+ if(i<=100) era="Folk Russia – traditions, village storytelling";
+ else if(i<=200) era="Imperial/Soviet shift – revolution & identity";
+ else if(i<=300) era="Soviet era – war, unity, propaganda";
+ else if(i<=400) era="Post-Soviet – western influence";
+ else era="Modern Russia – internet & youth culture";
 
-    let title = `${words1[i%10]} ${words2[i%10]} ${i}`;
-    songs.push(title);
-    culture.push(era);
-    year.push(y);
+ let title=`${words1[i%10]} ${words2[i%10]} ${i}`;
+ songs.push(title);
+ culture.push(era);
+ year.push(y);
 }
 
 // last exact song
-songs[499] = "MATULUKA ULTRA FUNK SLOWED REVERB";
-culture[499] = "Modern 2026 – internet remix culture, hyperpop/trend loops";
-year[499] = 2026;
+songs[499]="MATULUKA ULTRA FUNK SLOWED REVERB";
+culture[499]="Modern 2026 – remix/internet culture";
+year[499]=2026;
 
 function goExplore(){
-    document.getElementById('explore').scrollIntoView({behavior:'smooth'});
+ document.getElementById('explore').scrollIntoView({behavior:'smooth'});
 }
 
 function firstTwoWords(str){
-    return str.split(" ").slice(0,2).join(" ");
+ return str.split(" ").slice(0,2).join(" ");
 }
 
 function loadSongs(){
-    let html="";
-    songs.forEach((s,i)=>{
-        html+=`<div class='list-group-item' onclick="show(${i})">${i+1}. ${firstTwoWords(s)}</div>`;
-    });
-    document.getElementById("songList").innerHTML=html;
+ let html="";
+ songs.forEach((s,i)=>{
+ html+=`<div class='list-group-item' id='song-${i}' onclick="show(${i})">${i+1}. ${firstTwoWords(s)}</div>`;
+ });
+ document.getElementById("songList").innerHTML=html;
 }
 
 function clearSongs(){
-    document.getElementById("songList").innerHTML="";
-    document.getElementById("details").innerHTML="";
+ document.getElementById("songList").innerHTML="";
+ document.getElementById("details").innerHTML="";
 }
 
 function show(i){
-    document.getElementById("details").innerHTML=`
-    <div class='card bg-dark p-3'>
-    <h4>${songs[i]}</h4>
-    <p><b>Year:</b> ${year[i]}</p>
-    <p><b>Culture:</b> ${culture[i]}</p>
-    <a href='https://www.youtube.com/results?search_query=${encodeURIComponent(songs[i])}' target='_blank' class='btn btn-danger'>Play Song</a>
-    </div>`;
+ // remove previous highlight
+ document.querySelectorAll('.list-group-item').forEach(el=>el.classList.remove('active-song'));
+ document.getElementById(`song-${i}`).classList.add('active-song');
+
+ // ONLY ONE SONG DETAILS (REPLACES OLD)
+ document.getElementById("details").innerHTML=`
+ <div class='card bg-dark p-3'>
+ <h4>${songs[i]}</h4>
+ <p><b>Year:</b> ${year[i]}</p>
+ <p><b>Culture:</b> ${culture[i]}</p>
+ <a href='https://www.youtube.com/results?search_query=${encodeURIComponent(songs[i])}' target='_blank' class='btn btn-danger'>View Song</a>
+ </div>`;
 }
 
 </script>
