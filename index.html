@@ -9,6 +9,7 @@
 body { background:#0d0d0d; color:white; }
 .section { padding:60px 20px; }
 .song-detail { margin-top:20px; }
+.list-group-item{cursor:pointer}
 </style>
 </head>
 <body>
@@ -33,15 +34,15 @@ body { background:#0d0d0d; color:white; }
 <section id="intro" class="section text-center">
 <h1>RCGANGPOPPER 🎶</h1>
 <p>Learn Russian Language & Culture through Pop Songs.</p>
-<p>This platform lets you explore Russian music from historical folk roots → Soviet era → modern hip-hop.</p>
+<p>Chronological journey: Folk → Soviet → Post-Soviet → Modern.</p>
 <button class="btn btn-primary" onclick="scrollToExplore()">Start Exploring</button>
 </section>
 
 <!-- EXPLORE SECTION -->
 <section id="explore" class="section">
-<h2 class="text-center">Explore Songs (500+ Chronological)</h2>
+<h2 class="text-center">Explore Songs (500 Chronological)</h2>
 <div class="text-center mb-3">
-<button class="btn btn-success" onclick="loadSongs()">Load Songs</button>
+<button class="btn btn-success" onclick="loadSongs()">Explore 500 Songs</button>
 <button class="btn btn-warning" onclick="clearSongs()">Clear</button>
 </div>
 
@@ -51,19 +52,20 @@ body { background:#0d0d0d; color:white; }
 
 <script>
 
-// GENERATE 500 SONGS
 const songs = [];
 const culture = [];
 
+// GENERATE 500 SONGS WITH TITLES
 for(let i=1;i<=500;i++){
-    let era = "";
-    if(i<=100) era = "Folk & Imperial Russia - storytelling, rural life, traditions";
-    else if(i<=200) era = "Soviet Era - unity, war, patriotism, collectivism";
-    else if(i<=300) era = "Post-Soviet 90s - western influence, chaos, pop rise";
-    else if(i<=400) era = "2000s Global Russia - pop, eurovision, identity";
-    else era = "Modern Russia - trap, drill, internet culture, youth expression";
+    let era="";
+    if(i<=100) era="Folk & Imperial Russia - traditions, village life, storytelling";
+    else if(i<=200) era="Soviet Era - unity, war, patriotism, collectivism";
+    else if(i<=300) era="Post-Soviet 90s - western influence, chaos, pop culture";
+    else if(i<=400) era="2000s Russia - globalization, pop rise, identity";
+    else era="Modern Russia - trap, internet culture, youth expression";
 
-    songs.push(`Russian Song ${i}`);
+    let title = `Russian Song ${i} Culture Track`;
+    songs.push(title);
     culture.push(era);
 }
 
@@ -71,10 +73,15 @@ function scrollToExplore(){
     document.getElementById('explore').scrollIntoView({behavior:'smooth'});
 }
 
+// SHOW ONLY FIRST 2 WORDS
+function firstTwoWords(text){
+    return text.split(" ").slice(0,2).join(" ");
+}
+
 function loadSongs(){
     let list="";
     songs.forEach((song,i)=>{
-        list+=`<button class='list-group-item list-group-item-action' onclick="showDetail(${i})">${i+1}. ${song}</button>`;
+        list+=`<div class='list-group-item' onclick="showDetail(${i})">${i+1}. ${firstTwoWords(song)}</div>`;
     });
     document.getElementById("songList").innerHTML=list;
 }
@@ -89,7 +96,7 @@ function showDetail(i){
     <div class='card bg-dark text-light p-3'>
     <h4>${songs[i]}</h4>
     <p><b>Culture Insight:</b> ${culture[i]}</p>
-    <a href='https://www.youtube.com/results?search_query=${songs[i]}' target='_blank' class='btn btn-danger'>Open Song</a>
+    <a href='https://www.youtube.com/results?search_query=${encodeURIComponent(songs[i])}' target='_blank' class='btn btn-danger'>Open Song</a>
     </div>`;
 }
 
