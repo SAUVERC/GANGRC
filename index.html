@@ -10,6 +10,7 @@ body { background:#0b0b0b; color:white; }
 .section { padding:60px 20px; }
 .list-group-item{cursor:pointer}
 .active-song{background:#222 !important;color:#fff}
+#details{position:sticky; top:10px; z-index:10}
 </style>
 </head>
 <body>
@@ -37,10 +38,20 @@ body { background:#0b0b0b; color:white; }
 <button class="btn btn-danger" onclick="clearSongs()">Clear</button>
 </div>
 
-<div id="songList" class="list-group"></div>
+<div class="row">
 
-<!-- ONLY CLICKED SONG SHOWS HERE -->
-<div id="details" class="mt-4"></div>
+<!-- LEFT: SONG LIST (SCROLLABLE) -->
+<div class="col-md-6" style="max-height:70vh; overflow-y:auto">
+<div id="songList" class="list-group"></div>
+</div>
+
+<!-- RIGHT: CLICKED SONG (ALWAYS VISIBLE) -->
+<div class="col-md-6">
+<div id="details"></div>
+</div>
+
+</div>
+
 </section>
 
 <script>
@@ -68,7 +79,6 @@ for(let i=1;i<=500;i++){
  year.push(y);
 }
 
-// last exact song
 songs[499]="MATULUKA ULTRA FUNK SLOWED REVERB";
 culture[499]="Modern 2026 – remix/internet culture";
 year[499]=2026;
@@ -95,11 +105,9 @@ function clearSongs(){
 }
 
 function show(i){
- // remove previous highlight
  document.querySelectorAll('.list-group-item').forEach(el=>el.classList.remove('active-song'));
  document.getElementById(`song-${i}`).classList.add('active-song');
 
- // ONLY ONE SONG DETAILS (REPLACES OLD)
  document.getElementById("details").innerHTML=`
  <div class='card bg-dark p-3'>
  <h4>${songs[i]}</h4>
