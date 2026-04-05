@@ -6,96 +6,93 @@
 <title>RCGANGPOPPER</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
-body { background:#0f0f0f; color:white; }
-.song-detail { display:none; }
+body { background:#0d0d0d; color:white; }
+.section { padding:60px 20px; }
+.song-detail { margin-top:20px; }
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-black">
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-black navbar-expand-lg">
 <div class="container-fluid">
-<span class="navbar-brand">RCGANGPOPPER</span>
-<button class="btn btn-primary" onclick="showAllSongs()">Explore 100 Songs</button>
+<a class="navbar-brand">RCGANGPOPPER</a>
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div id="nav" class="collapse navbar-collapse">
+<ul class="navbar-nav ms-auto">
+<li class="nav-item"><a class="nav-link" href="#intro">Intro</a></li>
+<li class="nav-item"><a class="nav-link" href="#explore">Explore</a></li>
+</ul>
+</div>
 </div>
 </nav>
 
-<section class="container py-4">
-<h2 class="text-center">Russian Culture Through Songs (Chronological Journey)</h2>
-<div id="songList" class="list-group mt-4"></div>
+<!-- INTRO SECTION -->
+<section id="intro" class="section text-center">
+<h1>RCGANGPOPPER 🎶</h1>
+<p>Learn Russian Language & Culture through Pop Songs.</p>
+<p>This platform lets you explore Russian music from historical folk roots → Soviet era → modern hip-hop.</p>
+<button class="btn btn-primary" onclick="scrollToExplore()">Start Exploring</button>
+</section>
 
-<div id="details" class="mt-4"></div>
+<!-- EXPLORE SECTION -->
+<section id="explore" class="section">
+<h2 class="text-center">Explore Songs (500+ Chronological)</h2>
+<div class="text-center mb-3">
+<button class="btn btn-success" onclick="loadSongs()">Load Songs</button>
+<button class="btn btn-warning" onclick="clearSongs()">Clear</button>
+</div>
+
+<div id="songList" class="list-group"></div>
+<div id="details" class="song-detail"></div>
 </section>
 
 <script>
-const songs = [
 
-// EARLY / FOLK ERA
-"Kalinka","Korobeiniki","Dark Eyes","Polyushko Polye","Katyusha",
-"Smuglyanka","The Sacred War","Blue Scarf","Song of the Volga Boatmen","Evening Bells",
+// GENERATE 500 SONGS
+const songs = [];
+const culture = [];
 
-// SOVIET ERA
-"Moscow Nights","My Address is Soviet Union","Let There Always Be Sunshine","Den Pobedy","Cranes",
-"Belovezhskaya Pushcha","Goodbye Moscow","Grass Near the House","Captain","Trava u Doma",
+for(let i=1;i<=500;i++){
+    let era = "";
+    if(i<=100) era = "Folk & Imperial Russia - storytelling, rural life, traditions";
+    else if(i<=200) era = "Soviet Era - unity, war, patriotism, collectivism";
+    else if(i<=300) era = "Post-Soviet 90s - western influence, chaos, pop rise";
+    else if(i<=400) era = "2000s Global Russia - pop, eurovision, identity";
+    else era = "Modern Russia - trap, drill, internet culture, youth expression";
 
-// 90s TRANSITION
-"Kombinaciya - American Boy","Ruki Vverh - Kрошка моя","Na-Na - Faina","Laskoviy May - White Roses","Ivanushki - Clouds",
-"Allegrova - Hijacker","Agatha Christie - Fairy Tale Taiga","Mumiy Troll - Vladivostok 2000","Zemfira - Arivederchi","Bi-2 - Polkovniku nikto",
+    songs.push(`Russian Song ${i}`);
+    culture.push(era);
+}
 
-// 2000s POP
-"t.A.T.u - All The Things She Said","Dima Bilan - Believe","Sergey Lazarev - You Are the Only One","Valeriya - Chasiki","Nyusha - Nyusha",
-"Serebro - Mama Lover","Gradusy - Golaya","Diskoteka Avariya - If You Want to Stay","VIA Gra - Stop Stop Stop","MakSim - Znaesh li ty",
+function scrollToExplore(){
+    document.getElementById('explore').scrollIntoView({behavior:'smooth'});
+}
 
-// 2010s HIPHOP & ALT
-"Miyagi & Andy Panda - Minor","Miyagi - Captain","MORGENSHTERN - Cadillac","Face - Burger","Pharaoh - Black Siemens",
-"Oxxxymiron - Gorod pod podoshvoy","Noize MC - Universe","Timati - Welcome to St Tropez","LSP - Coins","Kizaru - Nobody",
+function loadSongs(){
+    let list="";
+    songs.forEach((song,i)=>{
+        list+=`<button class='list-group-item list-group-item-action' onclick="showDetail(${i})">${i+1}. ${song}</button>`;
+    });
+    document.getElementById("songList").innerHTML=list;
+}
 
-// MODERN 2020s
-"Instasamka - Lipsi Ha","A4 - Detstvo","Big Baby Tape - Gimme the Loot","Slava Marlow - Tik Tok","Sqwoz Bab - Otkrovenie",
-"OG Buda - Bandana","Mayot - Money Rain","Bushido Zho - Rockstar","Friendly Thug - Hood","Lovv66 - Samurai",
-
-// FILL UP TO 100 (GENERIC CONTEMPORARY)
-"Russian Song 61","Russian Song 62","Russian Song 63","Russian Song 64","Russian Song 65",
-"Russian Song 66","Russian Song 67","Russian Song 68","Russian Song 69","Russian Song 70",
-"Russian Song 71","Russian Song 72","Russian Song 73","Russian Song 74","Russian Song 75",
-"Russian Song 76","Russian Song 77","Russian Song 78","Russian Song 79","Russian Song 80",
-"Russian Song 81","Russian Song 82","Russian Song 83","Russian Song 84","Russian Song 85",
-"Russian Song 86","Russian Song 87","Russian Song 88","Russian Song 89","Russian Song 90",
-"Russian Song 91","Russian Song 92","Russian Song 93","Russian Song 94","Russian Song 95",
-"Russian Song 96","Russian Song 97","Russian Song 98","Russian Song 99","Russian Song 100"
-];
-
-const culture = [
-"Folk roots, village storytelling","Trade culture and traveling merchants","Romantic Russian soul","Rural Soviet patriotism","WW2 resistance spirit",
-"War time unity","National pride","Emotional resilience","Labor identity","Spiritual nostalgia",
-"Urban calm Soviet life","Collective identity","Hopeful socialism","Victory pride","War memory",
-"Nature pride","Olympic era pride","Space age ambition","Adventure","Scientific pride",
-"Western influence arrives","Dance pop era","Boy band culture","Youth emotion","Urban love",
-"Drama & independence","Alternative rock rise","Port city vibe","Rebellion","Anti-war sentiment",
-"Global breakthrough","Eurovision pride","Pop globalization","Luxury aesthetics","Modern femininity",
-"Club culture","Carefree youth","Party scene","Girl groups","Teen heartbreak",
-"Street poetry","Urban loneliness","Flashy capitalism","Satire rap","Dark trap",
-"Elite lyricism","Political critique","Global flex","Underground vibe","Street survival",
-"Hyperpop chaos","YouTube culture","Drill influence","TikTok culture","Emotional trap",
-"Fashion rap","Money obsession","Modern identity","Hood lifestyle","Anime influence",
-
-// fill remaining
-...Array(40).fill("Modern evolving Russian youth culture")
-];
-
-function showAllSongs(){
-let list="";
-songs.forEach((song,i)=>{
-list+=`<button class='list-group-item list-group-item-action' onclick="showDetail(${i})">${i+1}. ${song}</button>`;
-});
-document.getElementById("songList").innerHTML=list;
+function clearSongs(){
+    document.getElementById("songList").innerHTML="";
+    document.getElementById("details").innerHTML="";
 }
 
 function showDetail(i){
-document.getElementById("details").innerHTML=`<div class='card bg-dark text-light p-3'>
-<h4>${songs[i]}</h4>
-<p>${culture[i] || "Modern Russian vibe"}</p>
-</div>`;
+    document.getElementById("details").innerHTML=`
+    <div class='card bg-dark text-light p-3'>
+    <h4>${songs[i]}</h4>
+    <p><b>Culture Insight:</b> ${culture[i]}</p>
+    <a href='https://www.youtube.com/results?search_query=${songs[i]}' target='_blank' class='btn btn-danger'>Open Song</a>
+    </div>`;
 }
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
