@@ -1,0 +1,70 @@
+const express = require("express");
+const app = express();
+const PORT = 3000;
+
+// serve static JS
+app.use("/static", express.static(__dirname + "/static"));
+
+app.get("/", (req, res) => {
+res.send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCGANGPOPPER</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body { background:#0b0b0b; color:#ffffff; }
+.section { padding:60px 20px; }
+.list-group-item{cursor:pointer;background:#111;color:#fff;border-color:#222}
+.list-group-item:hover{background:#1a1a1a}
+.active-song{background:#b30000 !important;color:#fff}
+#details{position:sticky; top:10px;}
+.card{background:#111;border:1px solid #b30000}
+.btn-primary{background:#b30000;border:none}
+.btn-danger{background:#ff1a1a;border:none}
+h1,h2,h4{color:#ff1a1a}
+</style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-black">
+<div class="container-fluid">
+<span class="navbar-brand text-danger">RCGANGPOPPER</span>
+</div>
+</nav>
+
+<section class="section text-center">
+<h1>RCGANGPOPPER 🎶</h1>
+<button class="btn btn-primary" onclick="goExplore()">Start</button>
+</section>
+
+<section id="explore" class="section">
+<div class="row">
+
+<div class="col-md-6" style="max-height:70vh; overflow-y:auto">
+<div id="songList" class="list-group"></div>
+</div>
+
+<div class="col-md-6">
+<div id="details"></div>
+</div>
+
+</div>
+</section>
+
+<script src="/static/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+`);
+});
+
+app.listen(PORT, () => {
+console.log("🔥 Running on http://localhost:3000");
+});
