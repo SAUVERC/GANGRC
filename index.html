@@ -1,185 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sayan Roy Chowdhury | Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #0f0f0f;
-      color: #ffffff;
-      line-height: 1.6;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #0f0f0f;
+  color: #fff;
+  overflow-x: hidden;
+}
 
-    .container {
-      width: 90%;
-      max-width: 1000px;
-      margin: auto;
-    }
+/* CANVAS BACKGROUND */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
 
-    header {
-      padding: 60px 0;
-      text-align: center;
-      border-bottom: 1px solid #1f1f1f;
-    }
+/* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  background: rgba(0,0,0,0.9);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #1f1f1f;
+  z-index: 10;
+}
 
-    h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
+.nav-title {
+  font-weight: 700;
+  color: #3b82f6;
+}
 
-    h2 {
-      font-size: 28px;
-      margin-top: 50px;
-      margin-bottom: 20px;
-    }
+.nav-tabs span {
+  margin-left: 20px;
+  cursor: pointer;
+  color: #aaa;
+  transition: 0.3s;
+}
 
-    p {
-      color: #b3b3b3;
-      font-size: 18px;
-    }
+.nav-tabs span:hover,
+.active-tab {
+  color: #3b82f6;
+}
 
-    .tagline {
-      font-size: 20px;
-      color: #3b82f6; /* BLUE */
-    }
+/* CONTAINER */
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  margin: auto;
+  padding: 40px 20px;
+}
 
-    .section {
-      padding: 40px 0;
-      border-bottom: 1px solid #1f1f1f;
-    }
+/* HEADER */
+header {
+  text-align: center;
+  padding: 60px 0;
+  border-bottom: 1px solid #1f1f1f;
+}
 
-    .card {
-      background: #151515;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
+h1 {
+  font-size: 48px;
+}
 
-    .btn {
-      display: inline-block;
-      background: #3b82f6;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 25px;
-      text-decoration: none;
-      margin-top: 15px;
-    }
+.tagline {
+  color: #3b82f6;
+}
 
-    .btn:hover {
-      background: #2563eb;
-    }
+/* TABS */
+.tab {
+  display: none;
+  animation: fade 0.4s ease;
+}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #777;
-      font-size: 14px;
-    }
-  </style>
+.active {
+  display: block;
+}
+
+@keyframes fade {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* CARD */
+.card {
+  background: #151515;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+/* BUTTON */
+.btn {
+  display: inline-block;
+  background: #3b82f6;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  margin-top: 15px;
+}
+
+.btn:hover {
+  background: #2563eb;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  <div class="container">
-    <h1>Sayan Roy Chowdhury</h1>
-    <p class="tagline">Engineering Intelligent Systems. Building Scalable Technology.</p>
+<canvas id="bg"></canvas>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-title">Portfolio</div>
+  <div class="nav-tabs">
+    <span onclick="showTab(event,'about')" class="active-tab">About</span>
+    <span onclick="showTab(event,'education')">Education</span>
+    <span onclick="showTab(event,'skills')">Skills</span>
+    <span onclick="showTab(event,'projects')">Projects</span>
+    <span onclick="showTab(event,'philosophy')">Philosophy</span>
+    <span onclick="showTab(event,'connect')">Connect</span>
   </div>
-</header>
+</div>
 
 <div class="container">
 
-  <!-- ABOUT -->
-  <div class="section">
-    <h2>About Me</h2>
-    <p>
-      I am a technology-driven professional focused on building scalable systems across cloud, data, and AI. 
-      My work revolves around solving complex engineering problems and designing systems that can operate efficiently at scale.
-    </p>
+<header>
+  <h1>Sayan Roy Chowdhury</h1>
+  <p class="tagline">Building Skills. Exploring Systems. Growing Through Execution.</p>
+</header>
 
-    <p>
-      With a strong foundation in software engineering and data systems, I specialize in turning technical concepts into real-world solutions that deliver measurable impact.
-    </p>
+<!-- ABOUT -->
+<div id="about" class="tab active">
+  <div class="card">
+    <h2>About</h2>
+    <p>Motivated individual focused on learning, growth, and building real-world skills through consistent execution.</p>
   </div>
+</div>
 
-  <!-- EXPERIENCE -->
-  <div class="section">
-    <h2>Experience</h2>
-    <div class="card">
-      <p><strong>Engineering / Data / AI Systems</strong></p>
-      <p>
-        Experience in building and managing scalable systems across cloud infrastructure, backend systems, and data-driven applications.
-      </p>
-    </div>
-  </div>
-
-  <!-- EDUCATION -->
-  <div class="section">
+<!-- EDUCATION -->
+<div id="education" class="tab">
+  <div class="card">
     <h2>Education</h2>
-    <div class="card">
-      <p>
-        Strong academic background in engineering and technology with focus on systems, computing, and data.
-      </p>
-    </div>
+    <p>Academic background focused on developing analytical thinking and practical skills.</p>
   </div>
+</div>
 
-  <!-- SKILLS -->
-  <div class="section">
-    <h2>Core Skills</h2>
-    <div class="card">
-      <p>• Cloud Computing & Distributed Systems</p>
-      <p>• Data Engineering & Analytics</p>
-      <p>• Artificial Intelligence & Machine Learning</p>
-      <p>• Backend Development</p>
-      <p>• System Architecture & Optimization</p>
-    </div>
+<!-- SKILLS -->
+<div id="skills" class="tab">
+  <div class="card">
+    <h2>Skills</h2>
+    <p>• Problem Solving</p>
+    <p>• Analytical Thinking</p>
+    <p>• Learning & Adaptability</p>
+    <p>• Execution Mindset</p>
   </div>
+</div>
 
-  <!-- WORK -->
-  <div class="section">
-    <h2>What I Focus On</h2>
-    <div class="card">
-      <p>
-        Designing systems that connect:
-      </p>
-      <p>
-        Data → Intelligence → Decision → Scale
-      </p>
-      <p>
-        Focused on building reliable, high-performance systems that power modern digital infrastructure.
-      </p>
-    </div>
+<!-- PROJECTS -->
+<div id="projects" class="tab">
+  <div class="card">
+    <h2>Projects</h2>
+    <p>Working on building projects that combine learning with real-world application.</p>
   </div>
+</div>
 
-  <!-- PHILOSOPHY -->
-  <div class="section">
-    <h2>Approach</h2>
-    <div class="card">
-      <p>Clarity in systems</p>
-      <p>Efficiency in execution</p>
-      <p>Scalability in design</p>
-    </div>
+<!-- PHILOSOPHY -->
+<div id="philosophy" class="tab">
+  <div class="card">
+    <h2>Philosophy</h2>
+    <p>Consistency > Motivation</p>
+    <p>Execution > Planning</p>
+    <p>Growth > Comfort</p>
   </div>
+</div>
 
-  <!-- LINKEDIN -->
-  <div class="section">
+<!-- CONNECT -->
+<div id="connect" class="tab">
+  <div class="card">
     <h2>Connect</h2>
     <a href="https://www.linkedin.com/in/sayan-roy-chowdhury-ba9a4229b/" target="_blank" class="btn">
       View LinkedIn
     </a>
   </div>
+</div>
 
 </div>
 
 <footer>
-  <p>© 2026 Sayan Roy Chowdhury | Technology Portfolio</p>
+  © 2026 Portfolio
 </footer>
+
+<script>
+function showTab(e, id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('.nav-tabs span').forEach(s => s.classList.remove('active-tab'));
+  e.target.classList.add('active-tab');
+}
+
+/* ANIMATED DOT NETWORK */
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let dots = [];
+
+for (let i = 0; i < 100; i++) {
+  dots.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    dx: (Math.random()-0.5)*0.6,
+    dy: (Math.random()-0.5)*0.6
+  });
+}
+
+function animate() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  dots.forEach(dot => {
+    dot.x += dot.dx;
+    dot.y += dot.dy;
+
+    if(dot.x<0||dot.x>canvas.width) dot.dx*=-1;
+    if(dot.y<0||dot.y>canvas.height) dot.dy*=-1;
+
+    ctx.beginPath();
+    ctx.arc(dot.x, dot.y, 1.5, 0, Math.PI*2);
+    ctx.fillStyle = "rgba(255,255,255,0.7)";
+    ctx.fill();
+
+    dots.forEach(d => {
+      let dist = Math.hypot(dot.x-d.x, dot.y-d.y);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(dot.x, dot.y);
+        ctx.lineTo(d.x, d.y);
+        ctx.strokeStyle = "rgba(255,255,255,0.05)";
+        ctx.stroke();
+      }
+    });
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.onresize = () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+};
+</script>
 
 </body>
 </html>
